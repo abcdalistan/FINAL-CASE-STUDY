@@ -1,0 +1,20 @@
+---
+- name: ACL CONFIGURATION
+  hosts: R2
+  gather_facts: false
+  connection: local
+ 
+  tasks:
+   - name: CONFIGURE ACLs 
+     ios_config:
+       lines:
+         - access-list 101 permit tcp 192.168.60.0 0.0.0.255 192.168.60.2  0.0.0.0
+         - access-list 101 permit udp 192.168.60.0 0.0.0.255 192.168.60.2  0.0.0.255
+ 
+   - name: DISPLAYING THE SHOW ACCESS LISTS
+     ios_command:
+       commands:
+         - show access-lists 
+     register: output   
+
+  

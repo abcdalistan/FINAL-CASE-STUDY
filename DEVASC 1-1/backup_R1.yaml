@@ -1,0 +1,32 @@
+---
+- name: CREATING A BACKUP FOR R1
+  hosts: R1
+  gather_facts: false
+  connection: local
+ 
+  tasks:
+   - name: DISPLAYING THE STARTUP RUNNING CONFIGURATION
+     ios_command:
+       commands:
+         - show startup-config  
+     register: startupconfig
+ 
+   - name: SAVE OUTPUT TO ./backups/
+     copy:
+       content: "{{ startupconfig.stdout[0] }}"
+       dest: "backups/startup_backup_R1.txt"
+
+   - name: DISPLAYING THE RUNNING CONFIGURATION
+     ios_command:
+       commands:
+         - show running-config  
+     register: config
+ 
+   - name: SAVE OUTPUT TO ./backups/
+     copy:
+       content: "{{ config.stdout[0] }}"
+       dest: "backups/backup_R1.txt"
+
+   
+
+  

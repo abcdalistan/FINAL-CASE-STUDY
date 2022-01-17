@@ -1,0 +1,30 @@
+---
+- name: OSPF ACTIVATION
+  hosts: R2
+  gather_facts: false
+  connection: local
+ 
+  tasks:
+   - name: ACTIVATE OSPF USING NETWORK STATEMENTS
+     ios_config:
+       parents: "router ospf 1"
+       lines:
+         - router-id 2.2.2.2
+         - network 192.168.20.10 0.0.0.255 area 0
+         - network 10.10.1.1 0.0.0.3 area 0
+
+   - name: ACTIVATE OSPF FAST ETHERNET 0/0
+     ios_config:
+       parents: "interface FastEthernet0/0"
+       lines:
+         - ip ospf 1 area 0     
+ 
+   - name: ACTIVATE OSPF in SERIAL 0/0
+     ios_config:
+       parents: "interface Serial0/0"
+       lines:
+         - ip ospf 1 area 0  
+ 
+
+
+  
